@@ -16,20 +16,20 @@ if st.button("Generate Blog Post"):
     else:
         with st.spinner("Processing video and generating blog..."):
 
-            # 1️⃣ Create a new tool instance for this URL
-            yt_tool_dynamic = YoutubeVideoSearchTool(
-                youtube_video_url=video_url,
-                summarize=False
-            )
+            # Create tool without URL
+            yt_tool_dynamic = YoutubeVideoSearchTool(summarize=False)
 
-            # 2️⃣ Update agents to use the new tool
+            # Add the video URL dynamically
+            yt_tool_dynamic.add(video_url)
+
+            # Update agents to use the new tool
             blog_researcher.tools = [yt_tool_dynamic]
 
-            # 3️⃣ Update tasks to use updated agents
+            # Update tasks to use updated agents
             research_task.agent = blog_researcher
             write_task.agent = blog_writer
 
-            # 4️⃣ Kickoff the crew
+            # Kickoff the crew
             try:
                 result = crew.kickoff(inputs={"topic": topic})
 
