@@ -17,7 +17,7 @@ if st.button("Generate Blog Post"):
         with st.spinner("Processing video and generating blog..."):
 
             # Create tool without URL
-            yt_tool_dynamic = YoutubeVideoSearchTool(summarize=False)
+            yt_tool_dynamic = YoutubeVideoSearchTool()
 
             # Add the video URL dynamically
             yt_tool_dynamic.add(video_url)
