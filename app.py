@@ -1,6 +1,7 @@
 import streamlit as st
 from crew import crew  # your crew.py file
 from crewai_tools import YoutubeVideoSearchTool
+from tasks import research_task, write_task
 
 st.title("YouTube Video to Blog Generator using Crew AI")
 
@@ -24,15 +25,15 @@ if st.button("Generate Blog Post"):
                 crew.agents[0].tools = [yt_tool_dynamic]  # assuming agent[0] is researcher
 
                 # 3️⃣ Kickoff Crew with topic only (URL is in the tool)
-                result = crew.kickoff(inputs={"topic": topic})
+                crew.kickoff(inputs={"topic": topic})
 
                 # 4️⃣ Display outputs
                 st.subheader("🔍 Research Summary")
-                research_output = result.tasks[0].output.raw if result.tasks[0].output else "No research output."
+                research_output = research_task.output.raw if research_task.output else "No research output."
                 st.write(research_output)
 
                 st.subheader("📝 Blog Post")
-                blog_output = result.tasks[1].output.raw if result.tasks[1].output else "No blog output."
+                blog_output = write_task.output.raw if write_task.output else "No blog output."
                 st.write(blog_output)
 
             except Exception as e:
