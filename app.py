@@ -2,7 +2,7 @@ import streamlit as st
 from crew import crew  # your crew.py file
 from crewai_tools import YoutubeVideoSearchTool
 
-st.title("YouTube Video to Blog Generator")
+st.title("YouTube Video to Blog Generator using Crew AI")
 
 # User inputs
 video_url = st.text_input("Enter YouTube Video URL",value="https://www.youtube.com/watch?v=r5DEBMuStPw&t=2s")
