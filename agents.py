@@ -2,11 +2,10 @@ from crewai import Agent
 from crewai import LLM
 from dotenv import load_dotenv
 import os
-import streamlit as st
 
 load_dotenv()
 
-api_key = st.text_input("Enter Open AI Key")
+api_key = os.getenv("OPENAI_API_KEY")
 
 llm = LLM(
     model="openai/gpt-4o",
