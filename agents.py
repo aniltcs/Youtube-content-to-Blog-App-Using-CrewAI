@@ -1,6 +1,5 @@
 from crewai import Agent
 from crewai import LLM
-from crewai_tools import YoutubeVideoSearchTool
 from dotenv import load_dotenv
 import os
 
@@ -30,7 +29,7 @@ blog_researcher = Agent(
     verbose=True,
     memory=True,
     backstory="Expert in Angular, Ngrx, JavaScript. Strictly uses video content only.",
-    tools=[YoutubeVideoSearchTool()],
+    tools=[],
     allow_delegation=False,  # Prevent fallback to other agents/tools
     llm=llm
 )

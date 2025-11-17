@@ -1,32 +1,38 @@
 import streamlit as st
+from crew import crew  # your crew.py file
 from crewai_tools import YoutubeVideoSearchTool
-from crew import crew  # crew.py file
-from agents import blog_researcher, blog_writer
-from tasks import research_task, write_task
 
-# Title
-st.title("YouTube Video Blog Generator")
+st.title("YouTube Video to Blog Generator")
 
-video_url = st.text_input("YouTube Video URL", value="https://www.youtube.com/watch?v=r5DEBMuStPw&t=2s")
-topic = st.text_input("Topic", value="What is Angular Routing?")
+# User inputs
+video_url = st.text_input("Enter YouTube Video URL")
+topic = st.text_input("Enter Topic for Blog")
 
 if st.button("Generate Blog Post"):
-    if video_url.strip() == "" or topic.strip() == "":
-        st.warning("Please provide both a video URL and a topic.")
+    if not video_url or not topic:
+        st.warning("Please provide both a YouTube URL and a topic.")
     else:
         with st.spinner("Processing video and generating blog..."):
-
-            # Kickoff the crew
             try:
-                result = crew.kickoff(inputs={"topic": topic,"youtube_video_url": video_url})
+                # 1️⃣ Create YoutubeVideoSearchTool dynamically with user URL
+                yt_tool_dynamic = YoutubeVideoSearchTool(
+                    youtube_url=video_url,
+                    summarize=False  # optional: keep all content
+                )
 
-                research_output = research_task.output.raw
-                blog_output = write_task.output.raw
+                # 2️⃣ Inject the tool into the researcher agent dynamically
+                crew.agents[0].tools = [yt_tool_dynamic]  # assuming agent[0] is researcher
 
+                # 3️⃣ Kickoff Crew with topic only (URL is in the tool)
+                result = crew.kickoff(inputs={"topic": topic})
+
+                # 4️⃣ Display outputs
                 st.subheader("🔍 Research Summary")
+                research_output = result.tasks[0].output.raw if result.tasks[0].output else "No research output."
                 st.write(research_output)
 
                 st.subheader("📝 Blog Post")
+                blog_output = result.tasks[1].output.raw if result.tasks[1].output else "No blog output."
                 st.write(blog_output)
 
             except Exception as e:
