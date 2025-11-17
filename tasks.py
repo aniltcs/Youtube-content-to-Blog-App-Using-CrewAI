@@ -1,5 +1,4 @@
 from crewai import Task
-from tools import yt_tool
 from agents import blog_researcher,blog_writer
 
 # Research Task: strictly video content

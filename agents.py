@@ -1,5 +1,4 @@
 from crewai import Agent
-from tools import yt_tool
 from crewai import LLM
 from dotenv import load_dotenv
 import os
