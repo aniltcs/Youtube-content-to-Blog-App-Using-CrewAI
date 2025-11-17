@@ -5,8 +5,8 @@ from crewai_tools import YoutubeVideoSearchTool
 st.title("YouTube Video to Blog Generator")
 
 # User inputs
-video_url = st.text_input("Enter YouTube Video URL")
-topic = st.text_input("Enter Topic for Blog")
+video_url = st.text_input("Enter YouTube Video URL",value="https://www.youtube.com/watch?v=r5DEBMuStPw&t=2s")
+topic = st.text_input("Enter Topic for Blog",value="What is Angular Routing?")
 
 if st.button("Generate Blog Post"):
     if not video_url or not topic:
